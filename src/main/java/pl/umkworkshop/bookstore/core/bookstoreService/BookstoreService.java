@@ -1,8 +1,6 @@
 package pl.umkworkshop.bookstore.core.bookstoreService;
 
-import io.micrometer.observation.ObservationFilter;
 import org.springframework.stereotype.Service;
-import pl.umkworkshop.bookstore.api.model.request.BookToAddV1;
 import pl.umkworkshop.bookstore.core.model.Book;
 import pl.umkworkshop.bookstore.core.model.BookToAdd;
 import pl.umkworkshop.bookstore.repository.BooksRepository;

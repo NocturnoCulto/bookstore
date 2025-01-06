@@ -6,6 +6,9 @@ import pl.umkworkshop.bookstore.api.model.request.NewDescriptionV1;
 import pl.umkworkshop.bookstore.api.model.response.*;
 import pl.umkworkshop.bookstore.core.bookstoreService.BookstoreService;
 import pl.umkworkshop.bookstore.core.model.Book;
+import pl.umkworkshop.bookstore.core.model.BookToAdd;
+
+import java.util.List;
 
 
 @Service
@@ -18,19 +21,45 @@ public class BooksProvider {
     }
 
     public BookstoreResponseV1 getAllBooks() {
-        return null;
+        return new BookstoreResponseV1(
+                bookstoreService
+                        .getAllBooks()
+                        .stream()
+                        .map(this::mapBookToBookV1)
+                        .sorted()
+                        .toList());
     }
 
     public BookstoreResponseV1 getBookById(Long id) {
-        return null;
+        return new BookstoreResponseV1(
+                List.of(
+                        mapBookToBookV1(
+                                bookstoreService.getBookById(id)
+                        )
+                )
+        );
     }
 
     public BookstoreResponseV1 getBooksByAuthorLastName(String lastName) {
-        return null;
+        return new BookstoreResponseV1(
+                bookstoreService
+                        .getBooksByAuthorLastName(lastName)
+                        .stream()
+                        .map(this::mapBookToBookV1)
+                        .sorted()
+                        .toList());
     }
 
     public BookstoreResponseV1 addBook(BookToAddV1 book) {
-        return null;
+        BookToAdd bookToAdd  = new BookToAdd(
+                book.title(),
+                book.authorFirstName(),
+                book.authorLastName(),
+                book.stock(),
+                book.shortDescription(),
+                book.longDescription());
+
+        return new BookstoreResponseV1(List.of(mapBookToBookV1(bookstoreService.addBook(bookToAdd))));
     }
 
     public RemovedBookV1 deleteBookById(Long id) {

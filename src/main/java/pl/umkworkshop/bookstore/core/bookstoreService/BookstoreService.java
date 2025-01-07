@@ -1,43 +1,30 @@
 package pl.umkworkshop.bookstore.core.bookstoreService;
 
-import io.micrometer.observation.ObservationFilter;
 import org.springframework.stereotype.Service;
-import pl.umkworkshop.bookstore.api.model.request.BookToAddV1;
-import pl.umkworkshop.bookstore.core.model.Book;
-import pl.umkworkshop.bookstore.core.model.BookToAdd;
-import pl.umkworkshop.bookstore.repository.BooksRepository;
-
-import java.util.List;
+import pl.umkworkshop.bookstore.core.model.*;
+import pl.umkworkshop.bookstore.outgoing.coreInformationService.CoreInformationService;
+import pl.umkworkshop.bookstore.outgoing.descriptionStore.DescriptionStoreService;
+import pl.umkworkshop.bookstore.outgoing.stockService.StockService;
 
 @Service
 public class BookstoreService {
-    private final BooksRepository booksRepository;
+    private final CoreInformationService coreInformationService;
+    private final StockService stockService;
+    private final DescriptionStoreService descriptionService;
 
-    public BookstoreService(BooksRepository booksRepository) {
-        this.booksRepository = booksRepository;
+    public BookstoreService(CoreInformationService coreInformationService, StockService stockService, DescriptionStoreService descriptionService) {
+        this.coreInformationService = coreInformationService;
+        this.stockService = stockService;
+        this.descriptionService = descriptionService;
     }
 
-    public List<Book> getAllBooks() {
-        return booksRepository.getAllBooks();
-    }
 
     public Book getBookById(Long id) {
-        return booksRepository.getBookById(id);
+        CoreInformation coreInformation = coreInformationService.getCoreInformationById(id);
+        Stock stock = stockService.getCoreInformationById(id);
+        Description description = descriptionService.getDescriptionById(id);
+
+        return new Book(id, coreInformation, stock, description);
     }
 
-    public List<Book> getBooksByAuthorLastName(String lastName) {
-        return booksRepository.getBooksByAuthorLastName(lastName);
-    }
-
-    public Long removeBookById(Long id) {
-        return booksRepository.removeBook(id);
-    }
-
-    public Book addBook(BookToAdd book) {
-        return booksRepository.addBook(book);
-    }
-
-    public Book updateDescription(Long id, String shortDescription, String longDescription) {
-        return booksRepository.updateDescription(id, shortDescription, longDescription);
-    }
 }

@@ -1,4 +1,4 @@
-package pl.umkworkshop.bookstore.api.model.response;
+package pl.umkworkshop.bookstore.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

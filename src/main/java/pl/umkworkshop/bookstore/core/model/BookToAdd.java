@@ -5,5 +5,6 @@ public record BookToAdd(String title,
                         String authorLastName,
                         int stock,
                         String shortDescription,
-                        String longDescription) {
+                        String longDescription,
+                        Price price) {
 }

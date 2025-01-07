@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.umkworkshop.bookstore.api.model.response.BookstoreResponseV1;
+import pl.umkworkshop.bookstore.api.model.BookstoreResponseV1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

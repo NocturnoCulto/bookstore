@@ -1,10 +1,11 @@
-package pl.umkworkshop.bookstore.api.model.response;
+package pl.umkworkshop.bookstore.api.model;
 
 public record BookV1(Long id,
                      String title,
                      AuthorV1 author,
                      int stock,
-                     DescriptionV1 description) implements Comparable<BookV1> {
+                     DescriptionV1 description,
+                     PriceV1 price) implements Comparable<BookV1> {
 
     @Override
     public int compareTo(BookV1 o) {

@@ -1,7 +1,5 @@
 package pl.umkworkshop.bookstore.core.bookstoreService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.umkworkshop.bookstore.core.model.*;
@@ -17,7 +15,6 @@ public class BookstoreService {
     private final StockService stockService;
     private final DescriptionStoreService descriptionService;
 
-    private final Logger logger = LoggerFactory.getLogger(BookstoreService.class);
 
     public BookstoreService(CoreInformationService coreInformationService, StockService stockService, DescriptionStoreService descriptionService) {
         this.coreInformationService = coreInformationService;

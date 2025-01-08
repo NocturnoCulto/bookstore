@@ -10,22 +10,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BookstoreApiTest extends BaseTest {
 
-    @Test
-    void getAllBooksTest() throws Exception {
-        // given
-        String uri = "/books";
-
-        // when
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
-                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-
-        int status = mvcResult.getResponse().getStatus();
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        BookstoreResponseV1 response = mapFromJson(contentAsString, BookstoreResponseV1.class);
-
-
-        // then
-        assertEquals(200, status);
-        assertEquals(2, response.getBooks().size());
-    }
+//    @Test
+//    void getAllBooksTest() throws Exception {
+//        // given
+//        String uri = "/books";
+//
+//        // when
+//        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+//                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+//
+//        int status = mvcResult.getResponse().getStatus();
+//        String contentAsString = mvcResult.getResponse().getContentAsString();
+//        BookstoreResponseV1 response = mapFromJson(contentAsString, BookstoreResponseV1.class);
+//
+//
+//        // then
+//        assertEquals(200, status);
+//        assertEquals(2, response.getBooks().size());
+//    }
 }

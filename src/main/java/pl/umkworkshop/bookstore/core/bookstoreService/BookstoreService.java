@@ -9,7 +9,6 @@ import pl.umkworkshop.bookstore.outgoing.coreInformationService.CoreInformationS
 import pl.umkworkshop.bookstore.outgoing.descriptionStore.DescriptionStoreService;
 import pl.umkworkshop.bookstore.outgoing.stockService.StockService;
 
-import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 @Service

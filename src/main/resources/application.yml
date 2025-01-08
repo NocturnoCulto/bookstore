@@ -27,3 +27,10 @@ stock-service:
     path: "/stockById/%s"
     connect-timeout: 100
     read-timeout: 10000
+    circuit-breaker:
+      enabled: true
+      failure-rate-threshold: 99
+      wait-duration-in-open-state-in-millis: 30000
+      permitted-number-of-calls-in-half-open-state: 10
+      sliding-window-size: 25
+      minimum-number-of-calls: 25

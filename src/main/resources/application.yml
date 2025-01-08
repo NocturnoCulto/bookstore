@@ -9,14 +9,14 @@ core-information-service:
   url: "http://localhost:8088"
   path: "/bookById/%s"
   connect-timeout: 100
-  read-timeout: 10000
+  read-timeout: 1000
+  retry-read-timeout: 2000
 
 description-store:
   url: "http://localhost:8088"
   path: "/descriptionById/%s"
   connect-timeout: 100
-  read-timeout: 10000
-  retry-read-timeout: 20000
+  read-timeout: 1000
   cache:
     size: 500
     refresh_after_write: 1

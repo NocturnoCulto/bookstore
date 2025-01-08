@@ -14,19 +14,16 @@ public class DescriptionStoreConfiguration {
     private final String path;
     private final Long connectTimeout;
     private final Long readTimeout;
-    private final Long retryReadTimeout;
 
     public DescriptionStoreConfiguration(
             @Value("${description-store.url}") String url,
             @Value("${description-store.path}") String path,
             @Value("${description-store.connect-timeout}") Long connectTimeout,
-            @Value("${description-store.read-timeout}") Long readTimeout,
-            @Value("${description-store.retry-read-timeout}") Long retryReadTimeout) {
+            @Value("${description-store.read-timeout}") Long readTimeout) {
         this.url = url;
         this.path = path;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
-        this.retryReadTimeout = retryReadTimeout;
     }
 
     @Bean
@@ -34,14 +31,6 @@ public class DescriptionStoreConfiguration {
         return new RestTemplateBuilder()
                 .connectTimeout(Duration.ofMillis(connectTimeout))
                 .readTimeout(Duration.ofMillis(readTimeout))
-                .build();
-    }
-
-    @Bean
-    public RestTemplate descriptionStoreRestTemplateForRetry() {
-        return new RestTemplateBuilder()
-                .connectTimeout(Duration.ofMillis(connectTimeout))
-                .readTimeout(Duration.ofMillis(retryReadTimeout))
                 .build();
     }
 
@@ -59,9 +48,5 @@ public class DescriptionStoreConfiguration {
 
     public Long getReadTimeout() {
         return readTimeout;
-    }
-
-    public Long getRetryReadTimeout() {
-        return retryReadTimeout;
     }
 }

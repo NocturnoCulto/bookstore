@@ -2,8 +2,6 @@ package pl.umkworkshop.bookstore.outgoing.stockService;
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -19,7 +17,6 @@ public class StockServiceClient {
     private final StockServiceConfiguration configuration;
     private final CircuitBreaker stockServiceCircuitBreaker;
 
-    private final Logger logger = LoggerFactory.getLogger(StockServiceClient.class);
 
     public StockServiceClient(RestTemplate stockServiceRestTemplate, StockServiceConfiguration configuration, CircuitBreaker stockServiceCircuitBreaker) {
         this.stockServiceRestTemplate = stockServiceRestTemplate;

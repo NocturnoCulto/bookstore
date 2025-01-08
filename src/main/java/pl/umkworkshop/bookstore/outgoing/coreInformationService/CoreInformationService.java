@@ -6,13 +6,16 @@ import pl.umkworkshop.bookstore.core.model.CoreInformation;
 import pl.umkworkshop.bookstore.outgoing.coreInformationService.model.CoreInformationDTO;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 @Service
 public class CoreInformationService {
     private final CoreInformationClient coreInformationClient;
+    private final ExecutorService bookstoreThreadPool;
 
-    public CoreInformationService(CoreInformationClient coreInformationClient) {
+    public CoreInformationService(CoreInformationClient coreInformationClient, ExecutorService bookstoreThreadPool) {
         this.coreInformationClient = coreInformationClient;
+        this.bookstoreThreadPool = bookstoreThreadPool;
     }
 
     public CoreInformation getCoreInformationById(Long id) {
@@ -28,6 +31,6 @@ public class CoreInformationService {
         return CompletableFuture.supplyAsync(() -> {
             CoreInformationDTO dto = coreInformationClient.getCoreInformationById(id);
             return new CoreInformation(dto.title(), dto.authorFirstName(), dto.authorLastName());
-        });
+        }, bookstoreThreadPool);
     }
 }

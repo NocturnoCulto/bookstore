@@ -13,9 +13,10 @@ public class CoreInformationService {
     }
 
     public CoreInformation getCoreInformationById(Long id) {
+        CoreInformationDTO coreInformationDTO = coreInformationClient.getCoreInformationById(id);
         return new CoreInformation(
-                coreInformationClient.getCoreInformationById(id).title(),
-                coreInformationClient.getCoreInformationById(id).authorFirstName(),
-                coreInformationClient.getCoreInformationById(id).authorLastName());
+                coreInformationDTO.title(),
+                coreInformationDTO.authorFirstName(),
+                coreInformationDTO.authorLastName());
     }
 }

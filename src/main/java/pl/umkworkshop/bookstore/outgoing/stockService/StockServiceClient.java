@@ -22,16 +22,6 @@ public class StockServiceClient {
     }
 
     public StockDTO getCoreInformationById(Long id) {
-        String uriString = UriComponentsBuilder.fromUriString(configuration.getUrl())
-                .path(String.format(configuration.getPath(), id))
-                .build()
-                .toUriString();
-
-        try {
-            return stockServiceRestTemplate.getForObject(uriString, StockDTO.class);
-        } catch (Exception ex) {
-            logger.error("Request for stockCount information id={} failed. Exception = {}", id, ex.getMessage());
-            throw ex;
-        }
+        return null;
     }
 }

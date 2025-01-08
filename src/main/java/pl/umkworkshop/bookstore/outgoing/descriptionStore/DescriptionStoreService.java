@@ -7,18 +7,13 @@ import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionDTO;
 
 @Service
 public class DescriptionStoreService {
-    private final LoadingCache<Long, DescriptionDTO> descriptionStoreCache;
+    private final DescriptionStoreClient descriptionStoreClient;
 
-    public DescriptionStoreService(LoadingCache<Long, DescriptionDTO> descriptionStoreCache) {
-        this.descriptionStoreCache = descriptionStoreCache;
+    public DescriptionStoreService() {
     }
 
     public Description getDescriptionById(Long id) {
-        DescriptionDTO descriptionDTO = descriptionStoreCache.get(id);
 
-        if (descriptionDTO == null) {
-            return null;
-        }
-        return new Description(descriptionDTO.shortDescription(), descriptionDTO.longDescription());
+        return null;
     }
 }

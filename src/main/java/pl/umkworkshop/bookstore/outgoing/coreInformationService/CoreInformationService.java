@@ -8,15 +8,10 @@ import pl.umkworkshop.bookstore.outgoing.coreInformationService.model.CoreInform
 public class CoreInformationService {
     private final CoreInformationClient coreInformationClient;
 
-    public CoreInformationService(CoreInformationClient coreInformationClient) {
-        this.coreInformationClient = coreInformationClient;
+    public CoreInformationService() {
     }
 
     public CoreInformation getCoreInformationById(Long id) {
-        CoreInformationDTO coreInformationDTO = coreInformationClient.getCoreInformationById(id);
-        return new CoreInformation(
-                coreInformationDTO.title(),
-                coreInformationDTO.authorFirstName(),
-                coreInformationDTO.authorLastName());
+        return null;
     }
 }

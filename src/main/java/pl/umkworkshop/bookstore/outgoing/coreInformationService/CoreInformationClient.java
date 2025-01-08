@@ -11,35 +11,17 @@ import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionDTO;
 @Component
 public class CoreInformationClient {
     private final RestTemplate coreInformationRestTemplate;
-    private final RestTemplate coreInformationRetryRestTemplate;
     private final CoreInformationConfiguration configuration;
 
     private final Logger logger = LoggerFactory.getLogger(CoreInformationClient.class);
 
     public CoreInformationClient(RestTemplate coreInformationRestTemplate,
-                                 RestTemplate coreInformationRetryRestTemplate,
                                  CoreInformationConfiguration configuration) {
         this.coreInformationRestTemplate = coreInformationRestTemplate;
-        this.coreInformationRetryRestTemplate = coreInformationRetryRestTemplate;
         this.configuration = configuration;
     }
 
     public CoreInformationDTO getCoreInformationById(Long id) {
-        String uriString = UriComponentsBuilder.fromUriString(configuration.getUrl())
-                .path(String.format(configuration.getPath(), id))
-                .build()
-                .toUriString();
-
-        try {
-            return coreInformationRestTemplate.getForObject(uriString, CoreInformationDTO.class);
-        } catch (Exception ex) {
-            try {
-                logger.warn("Retry request for core information for book id={} after exception = {}", id, ex.getMessage());
-                return coreInformationRetryRestTemplate.getForObject(uriString, CoreInformationDTO.class);
-            } catch (Exception ex2) {
-                logger.error("Retry request for core information for book id={} failed. Exception = {}", id, ex2.getMessage());
-                throw ex2;
-            }
-        }
+        return null;
     }
 }

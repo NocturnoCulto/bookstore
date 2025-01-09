@@ -9,21 +9,21 @@ core-information-service:
   url: "http://localhost:8088"
   path: "/bookById/%s"
   connect-timeout: 100
-  read-timeout: 1000
-  retry-read-timeout: 2000
+  read-timeout: 3000
+  retry-read-timeout: 3000
 
 description-store:
   url: "http://localhost:8088"
   path: "/descriptionById/%s"
   connect-timeout: 100
-  read-timeout: 1000
+  read-timeout: 3000
   cache:
-    size: 500
-    refresh_after_write: 10
-    expire_after_write: 30
+    size: 0
+    refresh_after_write: 1
+    expire_after_write: 1
 
 stock-service:
     url: "http://localhost:8088"
     path: "/stockById/%s"
     connect-timeout: 100
-    read-timeout: 1000
+    read-timeout: 3000

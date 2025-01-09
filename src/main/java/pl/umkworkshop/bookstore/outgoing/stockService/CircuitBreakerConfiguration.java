@@ -19,6 +19,11 @@ public class CircuitBreakerConfiguration {
     private int minimumNumberOfCalls;
 
 
+    @Bean
+    public CircuitBreaker stockServiceCircuitBreaker() {
+        return CircuitBreaker.of("stockServiceCircuitBreaker", createConfig());
+    }
+
     private CircuitBreakerConfig createConfig() {
         return CircuitBreakerConfig.custom()
                 .failureRateThreshold(failureRateThreshold)
@@ -27,11 +32,6 @@ public class CircuitBreakerConfiguration {
                 .slidingWindow(slidingWindowSize, minimumNumberOfCalls, CircuitBreakerConfig.SlidingWindowType.COUNT_BASED,
                         CircuitBreakerConfig.SlidingWindowSynchronizationStrategy.LOCK_FREE)
                 .build();
-    }
-
-    @Bean
-    public CircuitBreaker stockServiceCircuitBreaker() {
-        return CircuitBreaker.of("stockServiceCircuitBreaker", createConfig());
     }
 
     // Getters and Setters

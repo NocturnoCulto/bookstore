@@ -10,10 +10,21 @@ import java.time.Duration;
 
 @Configuration
 public class CoreInformationConfiguration {
+    private final String url;
+    private final String path;
+    private final Long connectionTimeout;
+    private final Long readTimeout;
 
-    public CoreInformationConfiguration() {
-
+    public CoreInformationConfiguration(@Value("${core-information-service.url}") String url,
+                                        @Value("${core-information-service.path}") String path,
+                                        @Value("${core-information-service.connection-timeout}") Long connectionTimeout,
+                                        @Value("${core-information-service.read-timeout}") Long readTimeout) {
+        this.url = url;
+        this.path = path;
+        this.connectionTimeout = connectionTimeout;\
+        this.readTimeout = readTimeout;
     }
+
 
     @Bean
     public RestTemplate coreInformationRestTemplate() {

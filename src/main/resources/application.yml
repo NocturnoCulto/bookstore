@@ -9,6 +9,7 @@ core-information-service:
   url: "http://localhost:8088"
   path: "/bookById/%s"
   connect-timeout:
+  read-timeout:
 
 description-store:
   url: "http://localhost:8088"

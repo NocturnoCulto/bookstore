@@ -30,4 +30,20 @@ public class CoreInformationConfiguration {
     public RestTemplate coreInformationRestTemplate() {
         return null;
     }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public Long getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    public Long getReadTimeout() {
+        return readTimeout;
+    }
 }

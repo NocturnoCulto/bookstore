@@ -24,7 +24,8 @@ public class CircuitBreakerConfiguration {
                 .failureRateThreshold(failureRateThreshold)
                 .waitDurationInOpenState(Duration.ofMillis(waitDurationInOpenStateInMillis))
                 .permittedNumberOfCallsInHalfOpenState(permittedNumberOfCallsInHalfOpenState)
-                .slidingWindow(slidingWindowSize, minimumNumberOfCalls, CircuitBreakerConfig.SlidingWindowType.COUNT_BASED, CircuitBreakerConfig.SlidingWindowSynchronizationStrategy.LOCK_FREE)
+                .slidingWindow(slidingWindowSize, minimumNumberOfCalls, CircuitBreakerConfig.SlidingWindowType.COUNT_BASED,
+                        CircuitBreakerConfig.SlidingWindowSynchronizationStrategy.LOCK_FREE)
                 .build();
     }
 

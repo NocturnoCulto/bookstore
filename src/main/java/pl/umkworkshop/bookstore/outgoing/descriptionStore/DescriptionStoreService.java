@@ -9,13 +9,16 @@ import pl.umkworkshop.bookstore.outgoing.coreInformationService.model.CoreInform
 import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionDTO;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 @Service
 public class DescriptionStoreService {
     private final LoadingCache<Long, DescriptionDTO> descriptionStoreCache;
+    private final ExecutorService bookstoreThreadPool;
 
-    public DescriptionStoreService(LoadingCache<Long, DescriptionDTO> descriptionStoreCache) {
+    public DescriptionStoreService(LoadingCache<Long, DescriptionDTO> descriptionStoreCache, ExecutorService bookstoreThreadPool) {
         this.descriptionStoreCache = descriptionStoreCache;
+        this.bookstoreThreadPool = bookstoreThreadPool;
     }
 
     public Description getDescriptionById(Long id) {
@@ -32,6 +35,6 @@ public class DescriptionStoreService {
         return CompletableFuture.supplyAsync(() -> {
             DescriptionDTO dto = descriptionStoreCache.get(id);
             return new Description(dto.shortDescription(), dto.longDescription());
-        });
+        }, bookstoreThreadPool);
     }
 }

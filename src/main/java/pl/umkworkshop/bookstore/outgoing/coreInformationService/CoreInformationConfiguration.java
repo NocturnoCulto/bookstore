@@ -17,18 +17,21 @@ public class CoreInformationConfiguration {
 
     public CoreInformationConfiguration(@Value("${core-information-service.url}") String url,
                                         @Value("${core-information-service.path}") String path,
-                                        @Value("${core-information-service.connection-timeout}") Long connectionTimeout,
+                                        @Value("${core-information-service.connect-timeout}") Long connectionTimeout,
                                         @Value("${core-information-service.read-timeout}") Long readTimeout) {
         this.url = url;
         this.path = path;
-        this.connectionTimeout = connectionTimeout;\
+        this.connectionTimeout = connectionTimeout;
         this.readTimeout = readTimeout;
     }
 
 
     @Bean
     public RestTemplate coreInformationRestTemplate() {
-        return null;
+        return new RestTemplateBuilder()
+                .connectTimeout(Duration.ofMillis(connectionTimeout))
+                .readTimeout(Duration.ofMillis(readTimeout))
+                .build();
     }
 
     public String getUrl() {

@@ -21,6 +21,16 @@ public class DescriptionStoreClient {
     }
 
     DescriptionDTO getDescriptionById(Long id) {
-        return null;
+        String uriString = UriComponentsBuilder.fromUriString(configuration.getUrl())
+                .path(String.format(configuration.getPath(), id))
+                .build()
+                .toUriString();
+
+        try {
+            return descriptionStoreRestTemplate.getForObject(uriString, DescriptionDTO.class);
+        } catch (Exception ex) {
+            logger.error("Error while fetching description from DescriptionStore ex={}",ex.getMessage());
+            throw ex;
+        }
     }
 }

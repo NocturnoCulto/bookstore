@@ -9,11 +9,13 @@ import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionDTO;
 public class DescriptionStoreService {
     private final DescriptionStoreClient descriptionStoreClient;
 
-    public DescriptionStoreService() {
+    public DescriptionStoreService(DescriptionStoreClient descriptionStoreClient) {
+        this.descriptionStoreClient = descriptionStoreClient;
     }
 
     public Description getDescriptionById(Long id) {
+        DescriptionDTO descriptionDTO = descriptionStoreClient.getDescriptionById(id);
 
-        return null;
+        return new Description(descriptionDTO.shortDescription(), descriptionDTO.longDescription());
     }
 }

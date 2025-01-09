@@ -15,6 +15,7 @@ public class StockService {
     }
 
     public Stock getCoreInformationById(Long id) {
-        return null;
+        StockDTO stockDTO = stockServiceClient.getStockById(id);
+        return new Stock(stockDTO.stockCount(),new Price(stockDTO.price().value(), stockDTO.price().currency()) );
     }
 }

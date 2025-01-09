@@ -22,6 +22,16 @@ public class CoreInformationClient {
     }
 
     public CoreInformationDTO getCoreInformationById(Long id) {
-        return null;
+        String uriString = UriComponentsBuilder.fromUriString(configuration.getUrl())
+                .path(String.format(configuration.getPath(), id))
+                .build()
+                .toUriString();
+
+        try {
+            return coreInformationRestTemplate.getForObject(uriString, CoreInformationDTO.class);
+        } catch (Exception ex) {
+            logger.error("Error while fetching core information from CoreInformationService ex={}",ex.getMessage());
+            throw ex;
+        }
     }
 }

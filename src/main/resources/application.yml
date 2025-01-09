@@ -8,17 +8,17 @@ spring:
 core-information-service:
   url: "http://localhost:8088"
   path: "/bookById/%s"
-  connect-timeout:
-  read-timeout:
+  connect-timeout: 100
+  read-timeout: 1000
 
 description-store:
   url: "http://localhost:8088"
   path: "/descriptionById/%s"
-  connect-timeout:
-  read-timeout:
+  connect-timeout: 100
+  read-timeout: 1000
 
 stock-service:
     url: "http://localhost:8088"
     path: "/stockById/%s"
-    connect-timeout:
-    read-timeout:
+    connect-timeout: 100
+    read-timeout: 1000

@@ -14,15 +14,18 @@ public class CoreInformationConfiguration {
     private final String path;
     private final Long connectionTimeout;
     private final Long readTimeout;
+    private final Long retryReadTimeout;
 
     public CoreInformationConfiguration(@Value("${core-information-service.url}") String url,
                                         @Value("${core-information-service.path}") String path,
                                         @Value("${core-information-service.connect-timeout}") Long connectionTimeout,
-                                        @Value("${core-information-service.read-timeout}") Long readTimeout) {
+                                        @Value("${core-information-service.read-timeout}") Long readTimeout,
+                                        @Value("${core-information-service.retry-read-timeout}") Long retryReadTimeout) {
         this.url = url;
         this.path = path;
         this.connectionTimeout = connectionTimeout;
         this.readTimeout = readTimeout;
+        this.retryReadTimeout = retryReadTimeout;
     }
 
 
@@ -31,6 +34,14 @@ public class CoreInformationConfiguration {
         return new RestTemplateBuilder()
                 .connectTimeout(Duration.ofMillis(connectionTimeout))
                 .readTimeout(Duration.ofMillis(readTimeout))
+                .build();
+    }
+
+    @Bean
+    public RestTemplate coreInformationRetryRestTemplate() {
+        return new RestTemplateBuilder()
+                .connectTimeout(Duration.ofMillis(connectionTimeout))
+                .readTimeout(Duration.ofMillis(retryReadTimeout))
                 .build();
     }
 
@@ -48,5 +59,9 @@ public class CoreInformationConfiguration {
 
     public Long getReadTimeout() {
         return readTimeout;
+    }
+
+    public Long getRetryReadTimeout() {
+        return retryReadTimeout;
     }
 }

@@ -10,12 +10,17 @@ core-information-service:
   path: "/bookById/%s"
   connect-timeout: 100
   read-timeout: 1000
+  retry-read-timeout: 2000
 
 description-store:
   url: "http://localhost:8088"
   path: "/descriptionById/%s"
   connect-timeout: 100
   read-timeout: 1000
+  cache:
+    size: 50
+    refresh_after_write: 10
+    expire_after_write: 30
 
 stock-service:
     url: "http://localhost:8088"

@@ -64,16 +64,6 @@ public abstract class StubBaseTest extends BaseTest {
     }
 
     protected void stubCacheScenario() {
-        stubFor(get(urlPathMatching("/descriptionById/[0-9]+")).inScenario("cacheScenario")
-                .whenScenarioStateIs(STARTED)
-                .willReturn(aResponse().withBodyFile("descriptionStore/123.json")
-                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).withStatus(200))
-                .willSetStateTo("afterFirstResponse"));
-
-        stubFor(get(urlPathMatching("/descriptionById/[0-9]+")).inScenario("cacheScenario")
-                .whenScenarioStateIs("afterFirstResponse")
-                .willReturn(aResponse().withBodyFile("descriptionStore/123-update.json")
-                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).withStatus(200)));
 
     }
 }

@@ -17,8 +17,7 @@ import java.util.Currency;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookstoreApiTest extends StubBaseTest {
 
@@ -134,33 +133,8 @@ public class BookstoreApiTest extends StubBaseTest {
 
     @Test
     void shouldRefreshCache() throws Exception {
-        // given:
-        stubAllServices();
-        stubCacheScenario();
-        String uri = "/books/123";
 
-        // when:
-        BookV1 book1 = getResponseBodyForUri(uri).getBooks().getFirst();
-        Thread.sleep(4000);
-        BookV1 book2 = getResponseBodyForUri(uri).getBooks().getFirst();
-        Thread.sleep(1000);
-        BookV1 book3 = getResponseBodyForUri(uri).getBooks().getFirst();
-
-        // then:
-
-        assertEquals(123, book1.id());
-        assertEquals("Short text description", book1.description().shortDescription());
-        assertEquals("Long text description", book1.description().longDescription());
-
-        assertEquals(123, book2.id());
-        assertEquals("Short text description", book2.description().shortDescription());
-        assertEquals("Long text description", book2.description().longDescription());
-
-        assertEquals(123, book3.id());
-        assertEquals("Short text description updated", book3.description().shortDescription());
-        assertEquals("Long text description updated", book3.description().longDescription());
-
-        wireMockServer.verify(2, getRequestedFor(urlPathEqualTo("/descriptionById/123")));
+        assertTrue(false);
     }
 
 

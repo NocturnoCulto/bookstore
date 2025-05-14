@@ -1,0 +1,24 @@
+core-information-service:
+  url: "http://localhost:8123"
+  connect-timeout: 100
+  read-timeout: 100
+  retry-read-timeout: 300
+
+description-store:
+  url: "http://localhost:8123"
+  cache:
+    size: 500
+    refresh_after_write: 3
+    expire_after_write: 6
+
+stock-service:
+  url: "http://localhost:8123"
+  connect-timeout: 100
+  read-timeout: 10000
+  circuit-breaker:
+    enabled: true
+    failure-rate-threshold: 99
+    wait-duration-in-open-state-in-millis: 5000
+    permitted-number-of-calls-in-half-open-state: 10
+    sliding-window-size: 5
+    minimum-number-of-calls: 5

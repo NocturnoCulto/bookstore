@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.umkworkshop.bookstore.outgoing.coreInformationService.model.CoreInformationDTO;
+import pl.umkworkshop.bookstore.outgoing.coreInformationService.model.CoreInformationException;
 import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionDTO;
 
 @Component
@@ -38,7 +39,7 @@ public class CoreInformationClient {
                 return coreInformationRetryRestTemplate.getForObject(uriString, CoreInformationDTO.class);
             } catch (Exception ex2) {
                 logger.error("Retry request for core information for book id={} failed. Exception = {}", id, ex2.getMessage());
-                throw ex2;
+                throw new CoreInformationException("Request for core information for id={" + id + "} failed");
             }
         }
     }

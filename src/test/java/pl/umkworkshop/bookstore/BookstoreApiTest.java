@@ -1,31 +1,168 @@
 package pl.umkworkshop.bookstore;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.umkworkshop.bookstore.api.model.BookV1;
 import pl.umkworkshop.bookstore.api.model.BookstoreResponseV1;
+import pl.umkworkshop.bookstore.outgoing.stockService.exceptions.StockServiceException;
 
+import javax.management.RuntimeErrorException;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.util.Collections;
+import java.util.Currency;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BookstoreApiTest extends BaseTest {
+public class BookstoreApiTest extends StubBaseTest {
 
-//    @Test
-//    void getAllBooksTest() throws Exception {
-//        // given
-//        String uri = "/books";
-//
-//        // when
-//        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
-//                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-//
-//        int status = mvcResult.getResponse().getStatus();
-//        String contentAsString = mvcResult.getResponse().getContentAsString();
-//        BookstoreResponseV1 response = mapFromJson(contentAsString, BookstoreResponseV1.class);
-//
-//
-//        // then
-//        assertEquals(200, status);
-//        assertEquals(2, response.getBooks().size());
-//    }
+    @Test
+    void shouldReturnBookInformation() throws Exception {
+        // given
+        stubAllServices();
+        String uri = "/books/123";
+
+        // when
+        MockHttpServletResponse apiResponse = getResponse(uri);
+
+        int status = apiResponse.getStatus();
+
+        BookstoreResponseV1 response = getResponseBody(apiResponse);
+        BookV1 book = response.getBooks().getFirst();
+
+        // then
+        assertEquals(200, status);
+        assertEquals(123, book.id());
+        assertEquals("Test Book", book.title());
+        assertEquals("Author Name", book.author().authorName());
+        assertEquals("Author Last Name", book.author().authorLastName());
+        assertEquals(7, book.stock());
+        assertEquals(BigDecimal.valueOf(77), book.price().value());
+        assertEquals(Currency.getInstance("PLN"), book.price().currency());
+        assertEquals("Short text description", book.description().shortDescription());
+        assertEquals("Short text description", book.description().shortDescription());
+    }
+
+    @Test
+    void shouldRetryCoreInformationServiceWhenFirstRequestTimeout() throws Exception {
+        // given
+        stubAllServices();
+        stubCoreInformationServiceWithDelay(200);
+        String uri = "/books/123";
+
+        // when
+        MockHttpServletResponse apiResponse = getResponse(uri);
+
+        int status = apiResponse.getStatus();
+
+        BookstoreResponseV1 response = getResponseBody(apiResponse);
+        BookV1 book = response.getBooks().getFirst();
+
+        // then
+        assertEquals(200, status);
+        assertEquals(123, book.id());
+        assertEquals("Test Book", book.title());
+
+        wireMockServer.verify(2, getRequestedFor(urlPathEqualTo("/bookById/123")));
+    }
+
+    @Test
+    void shouldReturn503StatusCodeWhenCoreInformationServiceFailed() throws Exception {
+        // given
+        stubAllServices();
+        stubCoreInformationServiceFail();
+        String uri = "/books/123";
+
+        // when
+        // then
+        MockHttpServletResponse response = getResponse(uri);
+
+        assertEquals(HttpStatus.SERVICE_UNAVAILABLE.value(), response.getStatus());
+        assertEquals("Internal server error: Request for core information for id={123} failed", response.getContentAsString());
+
+    }
+
+    @Test
+    void shouldCachedDescription() throws Exception {
+        //given:
+        stubAllServices();
+        String uri = "/books/123";
+
+        //when:
+        for (int i = 0; i < 10; i++) {
+            getResponse(uri);
+        }
+        BookV1 book = getResponseBodyForUri(uri).getBooks().getFirst();
+
+        //then:
+        assertEquals(123, book.id());
+        assertEquals("Short text description", book.description().shortDescription());
+        assertEquals("Short text description", book.description().shortDescription());
+
+        wireMockServer.verify(1, getRequestedFor(urlPathEqualTo("/descriptionById/123")));
+    }
+
+    @Test
+    void shouldOpenCircuitBreakerWhenStockServiceFailed() throws Exception {
+        // given
+        stubAllServices();
+        stubStockServiceFail(); // Symulacja awarii StockService
+        String uri = "/books/123";
+
+        // when
+        MockHttpServletResponse response1 = getResponse(uri);
+
+        for (int i = 0; i < 7; i++) {
+            getResponse(uri);
+        }
+        MockHttpServletResponse response2 = getResponse(uri);
+
+
+        // Weryfikacja treści wyjątku
+        assertEquals(HttpStatus.SERVICE_UNAVAILABLE.value(), response1.getStatus());
+        assertEquals("Internal server error: Stock Service request failed for id={123}", response1.getContentAsString());
+        assertEquals(HttpStatus.BAD_GATEWAY.value(), response2.getStatus());
+        assertEquals("Service temporary unavailable: Circuit breaker is open for Stock Service", response2.getContentAsString());
+
+    }
+
+    @Test
+    void shouldRefreshCache() throws Exception {
+        // given:
+        stubAllServices();
+        stubCacheScenario();
+        String uri = "/books/123";
+
+        // when:
+        BookV1 book1 = getResponseBodyForUri(uri).getBooks().getFirst();
+        Thread.sleep(4000);
+        BookV1 book2 = getResponseBodyForUri(uri).getBooks().getFirst();
+        Thread.sleep(1000);
+        BookV1 book3 = getResponseBodyForUri(uri).getBooks().getFirst();
+
+        // then:
+
+        assertEquals(123, book1.id());
+        assertEquals("Short text description", book1.description().shortDescription());
+        assertEquals("Long text description", book1.description().longDescription());
+
+        assertEquals(123, book2.id());
+        assertEquals("Short text description", book2.description().shortDescription());
+        assertEquals("Long text description", book2.description().longDescription());
+
+        assertEquals(123, book3.id());
+        assertEquals("Short text description updated", book3.description().shortDescription());
+        assertEquals("Long text description updated", book3.description().longDescription());
+
+        wireMockServer.verify(2, getRequestedFor(urlPathEqualTo("/descriptionById/123")));
+    }
+
+
+
 }

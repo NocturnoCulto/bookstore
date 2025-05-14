@@ -1,0 +1,8 @@
+{
+  "id": 123,
+  "stockCount": 7,
+  "price": {
+    "value": 77,
+    "currency": "PLN"
+  }
+}

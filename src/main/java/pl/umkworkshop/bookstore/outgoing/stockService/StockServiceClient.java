@@ -29,7 +29,7 @@ public class StockServiceClient {
         try {
             return stockSupplier.get();
         } catch (CallNotPermittedException ex) {
-            throw new CircuitBreakerOpenException("Circuit breaker is open for stock service");
+            throw new CircuitBreakerOpenException("Circuit breaker is open for Stock Service");
         }
     }
 
@@ -42,7 +42,7 @@ public class StockServiceClient {
         try {
             return stockServiceRestTemplate.getForObject(uriString, StockDTO.class);
         } catch (Exception ex) {
-            throw new StockServiceException("Request for stockCount information id={" + id + "} failed");
+            throw new StockServiceException("Stock Service request failed for id={" + id + "}");
         }
     }
 }

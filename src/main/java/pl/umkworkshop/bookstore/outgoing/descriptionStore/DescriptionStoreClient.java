@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionDTO;
+import pl.umkworkshop.bookstore.outgoing.descriptionStore.model.DescriptionStoreException;
 
 @Component
 public class DescriptionStoreClient {
@@ -30,7 +31,7 @@ public class DescriptionStoreClient {
             return descriptionStoreRestTemplate.getForObject(uriString, DescriptionDTO.class);
         } catch (Exception ex) {
             logger.error("Request for description for book id={} failed. Exception = {}", id, ex.getMessage());
-            throw ex;
+            throw new DescriptionStoreException("Request for descriptions for id={" + id + "} failed");
         }
     }
 }

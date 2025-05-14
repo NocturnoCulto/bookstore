@@ -19,8 +19,8 @@ description-store:
   read-timeout: 1000
   cache:
     size: 500
-    refresh_after_write: 1
-    expire_after_write: 1
+    refresh_after_write: 600
+    expire_after_write: 3600
 
 stock-service:
     url: "http://localhost:8088"

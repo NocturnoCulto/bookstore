@@ -89,22 +89,7 @@ public class BookstoreApiTest extends StubBaseTest {
 
     @Test
     void shouldCachedDescription() throws Exception {
-        //given:
-        stubAllServices();
-        String uri = "/books/123";
-
-        //when:
-        for (int i = 0; i < 10; i++) {
-            getResponse(uri);
-        }
-        BookV1 book = getResponseBodyForUri(uri).getBooks().getFirst();
-
-        //then:
-        assertEquals(123, book.id());
-        assertEquals("Short text description", book.description().shortDescription());
-        assertEquals("Short text description", book.description().shortDescription());
-
-        wireMockServer.verify(1, getRequestedFor(urlPathEqualTo("/descriptionById/123")));
+        assertTrue(false);
     }
 
     @Test
@@ -117,7 +102,6 @@ public class BookstoreApiTest extends StubBaseTest {
 
         assertTrue(false);
     }
-
 
 
 }

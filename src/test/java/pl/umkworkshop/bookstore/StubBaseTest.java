@@ -9,14 +9,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
 
 public abstract class StubBaseTest extends BaseTest {
-    // This class is intentionally empty. It serves as a base test class for other test classes.
-    // You can add common test setup or utility methods here if needed.
-
-    @BeforeEach
-    protected void resetAllStubs() {
-        wireMockServer.resetAll();
-        wireMockServer.resetScenarios();
-    }
 
     protected void stubAllServices()
     {

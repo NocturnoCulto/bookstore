@@ -53,11 +53,11 @@ public abstract class BaseTest {
     @BeforeEach
     protected void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        configureFor("localhost", 8123);
 
         descriptionStoreCache.invalidateAll();
         circuitBreaker.transitionToClosedState();
 
-        configureFor("localhost", 8123);
     }
 
     protected MockHttpServletResponse getResponse(String uri) throws Exception {

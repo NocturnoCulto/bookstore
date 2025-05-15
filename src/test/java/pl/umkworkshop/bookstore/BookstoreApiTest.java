@@ -23,29 +23,9 @@ public class BookstoreApiTest extends StubBaseTest {
 
     @Test
     void shouldReturnBookInformation() throws Exception {
-        // given
-        stubAllServices();
-        String uri = "/books/123";
 
-        // when
-        MockHttpServletResponse apiResponse = getResponse(uri);
+        assertTrue(false);
 
-        int status = apiResponse.getStatus();
-
-        BookstoreResponseV1 response = getResponseBody(apiResponse);
-        BookV1 book = response.getBooks().getFirst();
-
-        // then
-        assertEquals(200, status);
-        assertEquals(123, book.id());
-        assertEquals("Test Book", book.title());
-        assertEquals("Author Name", book.author().authorName());
-        assertEquals("Author Last Name", book.author().authorLastName());
-        assertEquals(7, book.stock());
-        assertEquals(BigDecimal.valueOf(77), book.price().value());
-        assertEquals(Currency.getInstance("PLN"), book.price().currency());
-        assertEquals("Short text description", book.description().shortDescription());
-        assertEquals("Short text description", book.description().shortDescription());
     }
 
     @Test

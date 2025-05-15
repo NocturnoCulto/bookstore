@@ -50,10 +50,7 @@ public abstract class StubBaseTest extends BaseTest {
     }
 
     protected void stubCoreInformationServiceFail() {
-        stubFor(get(urlPathMatching("/bookById/[0-9]+"))
-                .willReturn(aResponse().withBodyFile(null)
-                        .withFixedDelay(100)
-                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).withStatus(503)));
+
     }
 
     protected void stubStockServiceFail() {

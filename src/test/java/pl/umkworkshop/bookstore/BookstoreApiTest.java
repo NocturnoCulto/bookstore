@@ -73,34 +73,30 @@ public class BookstoreApiTest extends StubBaseTest {
 
     @Test
     void shouldReturn503StatusCodeWhenCoreInformationServiceFailed() throws Exception {
-        // given
-        stubAllServices();
-        stubCoreInformationServiceFail();
-        String uri = "/books/123";
 
-        // when
-        // then
-        MockHttpServletResponse response = getResponse(uri);
-
-        assertEquals(HttpStatus.SERVICE_UNAVAILABLE.value(), response.getStatus());
-        assertEquals("Internal server error: Request for core information for id={123} failed", response.getContentAsString());
+        assertTrue(false);
 
     }
 
     @Test
     void shouldCachedDescription() throws Exception {
+
         assertTrue(false);
+
     }
 
     @Test
     void shouldOpenCircuitBreakerWhenStockServiceFailed() throws Exception {
+
         assertTrue(false);
+
     }
 
     @Test
     void shouldRefreshCache() throws Exception {
 
         assertTrue(false);
+
     }
 
 

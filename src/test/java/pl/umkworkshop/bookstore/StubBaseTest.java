@@ -43,10 +43,7 @@ public abstract class StubBaseTest extends BaseTest {
     }
 
     protected void stubCoreInformationServiceWithDelay(int delay) {
-        stubFor(get(urlPathMatching("/bookById/[0-9]+"))
-                .willReturn(aResponse().withBodyFile("coreInformationService/123.json")
-                        .withFixedDelay(delay)
-                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).withStatus(200)));
+
     }
 
     protected void stubCoreInformationServiceFail() {

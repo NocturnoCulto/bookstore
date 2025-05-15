@@ -50,25 +50,9 @@ public class BookstoreApiTest extends StubBaseTest {
 
     @Test
     void shouldRetryCoreInformationServiceWhenFirstRequestTimeout() throws Exception {
-        // given
-        stubAllServices();
-        stubCoreInformationServiceWithDelay(200);
-        String uri = "/books/123";
 
-        // when
-        MockHttpServletResponse apiResponse = getResponse(uri);
+        assertTrue(false);
 
-        int status = apiResponse.getStatus();
-
-        BookstoreResponseV1 response = getResponseBody(apiResponse);
-        BookV1 book = response.getBooks().getFirst();
-
-        // then
-        assertEquals(200, status);
-        assertEquals(123, book.id());
-        assertEquals("Test Book", book.title());
-
-        wireMockServer.verify(2, getRequestedFor(urlPathEqualTo("/bookById/123")));
     }
 
     @Test

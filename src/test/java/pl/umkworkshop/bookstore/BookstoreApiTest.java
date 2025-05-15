@@ -109,26 +109,7 @@ public class BookstoreApiTest extends StubBaseTest {
 
     @Test
     void shouldOpenCircuitBreakerWhenStockServiceFailed() throws Exception {
-        // given
-        stubAllServices();
-        stubStockServiceFail(); // Symulacja awarii StockService
-        String uri = "/books/123";
-
-        // when
-        MockHttpServletResponse response1 = getResponse(uri);
-
-        for (int i = 0; i < 7; i++) {
-            getResponse(uri);
-        }
-        MockHttpServletResponse response2 = getResponse(uri);
-
-
-        // Weryfikacja treści wyjątku
-        assertEquals(HttpStatus.SERVICE_UNAVAILABLE.value(), response1.getStatus());
-        assertEquals("Internal server error: Stock Service request failed for id={123}", response1.getContentAsString());
-        assertEquals(HttpStatus.BAD_GATEWAY.value(), response2.getStatus());
-        assertEquals("Service temporary unavailable: Circuit breaker is open for Stock Service", response2.getContentAsString());
-
+        assertTrue(false);
     }
 
     @Test

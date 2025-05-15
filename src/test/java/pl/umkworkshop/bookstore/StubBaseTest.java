@@ -57,10 +57,7 @@ public abstract class StubBaseTest extends BaseTest {
     }
 
     protected void stubStockServiceFail() {
-        stubFor(get(urlPathMatching("/stockById/[0-9]+"))
-                .willReturn(aResponse().withBodyFile(null)
-                        .withFixedDelay(10)
-                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).withStatus(503)));
+
     }
 
     protected void stubCacheScenario() {

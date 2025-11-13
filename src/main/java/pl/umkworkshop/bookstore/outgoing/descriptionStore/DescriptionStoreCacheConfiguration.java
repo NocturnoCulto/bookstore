@@ -28,11 +28,7 @@ public class DescriptionStoreCacheConfiguration {
 
     @Bean
     LoadingCache<Long, DescriptionDTO> descriptionStoreCache() {
-        return Caffeine.newBuilder()
-                .maximumSize(cacheSize)
-                .refreshAfterWrite(refreshAfterWrite, TimeUnit.SECONDS)
-                .expireAfterWrite(expireAfterWrite, TimeUnit.SECONDS)
-                .build(descriptionStoreClient::getDescriptionById);
+        return null;
     }
 
     public Long getCacheSize() {

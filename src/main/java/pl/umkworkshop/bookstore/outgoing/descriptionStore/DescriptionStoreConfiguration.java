@@ -28,10 +28,7 @@ public class DescriptionStoreConfiguration {
 
     @Bean
     public RestTemplate descriptionStoreRestTemplate() {
-        return new RestTemplateBuilder()
-                .connectTimeout(Duration.ofMillis(connectionTimeout))
-                .readTimeout(Duration.ofMillis(readTimeout))
-                .build();
+        return null;
     }
 
     public String getUrl() {

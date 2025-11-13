@@ -31,18 +31,7 @@ public class CoreInformationConfiguration {
 
     @Bean
     public RestTemplate coreInformationRestTemplate() {
-        return new RestTemplateBuilder()
-                .connectTimeout(Duration.ofMillis(connectionTimeout))
-                .readTimeout(Duration.ofMillis(readTimeout))
-                .build();
-    }
-
-    @Bean
-    public RestTemplate coreInformationRetryRestTemplate() {
-        return new RestTemplateBuilder()
-                .connectTimeout(Duration.ofMillis(connectionTimeout))
-                .readTimeout(Duration.ofMillis(retryReadTimeout))
-                .build();
+        return null;
     }
 
     public String getUrl() {

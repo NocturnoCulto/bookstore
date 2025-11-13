@@ -14,8 +14,6 @@ public class DescriptionStoreService {
     }
 
     public Description getDescriptionById(Long id) {
-        DescriptionDTO descriptionDTO = descriptionStoreCache.get(id);
-
-        return new Description(descriptionDTO.shortDescription(), descriptionDTO.longDescription());
+        return null;
     }
 }

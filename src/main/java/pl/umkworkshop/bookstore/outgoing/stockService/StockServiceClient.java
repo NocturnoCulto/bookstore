@@ -20,16 +20,6 @@ public class StockServiceClient {
     }
 
     public StockDTO getStockById(Long id) {
-        String uriString = UriComponentsBuilder.fromUriString(configuration.getUrl())
-                .path(String.format(configuration.getPath(), id))
-                .build()
-                .toUriString();
-
-        try {
-            return stockServiceRestTemplate.getForObject(uriString, StockDTO.class);
-        } catch (Exception ex) {
-            logger.error("Error while fetching description from DescriptionStore ex={}",ex.getMessage());
-            throw ex;
-        }
+        return null;
     }
 }

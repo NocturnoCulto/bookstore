@@ -23,9 +23,21 @@ public class BookstoreApi {
     @GetMapping("/books/{id}")
     public ResponseEntity<BookstoreResponseV1> getBookById(@PathVariable Long id) {
         Instant start = Instant.now();
-        BookstoreResponseV1 bookById = booksProvider.getBookById(id);
+        BookstoreResponseV1 bookById = null;
+        try {
+            bookById = booksProvider.getBookById(id);
+        } catch (Exception ignored) {
+        }
+
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
+        if (bookById == null) {
+            logger.info("Failed request for book id={} took {} ms", id, timeElapsed.toMillis());
+            return ResponseEntity
+                    .status(500)
+                    .build();
+        }
+
         logger.info("Request for book id={} took {} ms", id, timeElapsed.toMillis());
         return ResponseEntity
                 .status(200)

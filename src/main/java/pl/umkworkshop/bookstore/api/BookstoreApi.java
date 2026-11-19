@@ -21,7 +21,6 @@ public class BookstoreApi {
 
     @GetMapping(value = "/allBooks", produces = APPLICATION_JSON_V1)
     public ResponseEntity<BookstoreResponseV1> getAllBooks() {
-
         return ResponseEntity
                 .status(200)
                 .body(booksProvider.getAllBooks());

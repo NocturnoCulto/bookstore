@@ -19,67 +19,30 @@ public class BookstoreApi {
         this.booksProvider = booksProvider;
     }
 
-    @GetMapping(value = "/allBooks", produces = APPLICATION_JSON_V1)
     public ResponseEntity<BookstoreResponseV1> getAllBooks() {
-        return ResponseEntity
-                .status(200)
-                .body(booksProvider.getAllBooks());
+        return null;
     }
 
-    @GetMapping(value = "/books/{id}", produces = APPLICATION_JSON_V1)
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
-        BookstoreResponseV1 response = booksProvider.getBookById(id);
-        if (response.getBooks().isEmpty()) {
-            return ResponseEntity
-                    .status(404)
-                    .body(new ErrorResponseV1("Book with id " + id + " was not found"));
-        }
-
-        return ResponseEntity
-                .status(200)
-                .body(response);
+        return null;
     }
 
-    @GetMapping(value = "/books", produces = APPLICATION_JSON_V1)
     public ResponseEntity<BookstoreResponseV1> getBooksByAuthorLastName(@RequestParam String lastName) {
-        return ResponseEntity
-                .status(200)
-                .body(booksProvider.getBooksByAuthorLastName(lastName));
+        return null;
     }
 
-    @PostMapping(value = "/books", produces = APPLICATION_JSON_V1)
     public ResponseEntity<BookstoreResponseV1> addBook(@RequestBody BookToAddV1 book) {
-        return ResponseEntity
-                .status(201)
-                .body(booksProvider.addBook(book));
+        return null;
     }
 
-    @PatchMapping(value = "/books/{id}", produces = APPLICATION_JSON_V1)
     public ResponseEntity<?> changeDescription(
             @PathVariable Long id,
             @RequestBody NewDescriptionV1 newDescription
     ) {
-        try {
-            return ResponseEntity
-                    .status(200)
-                    .body(booksProvider.changeDescription(id, newDescription));
-        } catch (IllegalArgumentException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(new ErrorResponseV1("Book with id " + id + " was not found"));
-        }
+        return null;
     }
 
-    @DeleteMapping(value = "/books/{id}", produces = APPLICATION_JSON_V1)
     public ResponseEntity<?> deleteBookById(@PathVariable Long id) {
-        try {
-            return ResponseEntity
-                    .status(200)
-                    .body(booksProvider.deleteBookById(id));
-        } catch (IllegalArgumentException exception) {
-            return ResponseEntity
-                    .status(404)
-                    .body(new ErrorResponseV1("Book with id " + id + " was not found"));
-        }
+        return null;
     }
 }

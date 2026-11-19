@@ -20,28 +20,11 @@ public class BookstoreApiV2 {
         this.booksProvider = booksProvider;
     }
 
-    @GetMapping(value = "/allBooks", produces = APPLICATION_JSON_V2)
     public ResponseEntity<BookstoreResponseV2> getAllBooks() {
-        BookstoreResponseV1 response = booksProvider.getAllBooks();
-        return ResponseEntity.ok(
-                new BookstoreResponseV2(response.getBooks(), API_VERSION)
-        );
+        return null;
     }
 
-    @GetMapping(value = "/books/{id}", produces = APPLICATION_JSON_V2)
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
-        BookstoreResponseV1 response = booksProvider.getBookById(id);
-        if (response.getBooks().isEmpty()) {
-            return ResponseEntity
-                    .status(404)
-                    .body(new ErrorResponseV2(
-                            "Book with id " + id + " was not found",
-                            API_VERSION
-                    ));
-        }
-
-        return ResponseEntity.ok(
-                new BookstoreResponseV2(response.getBooks(), API_VERSION)
-        );
+        return null;
     }
 }

@@ -15,6 +15,7 @@ import pl.umkworkshop.bookstore.api.model.response.RemovedBookV1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class BookstoreApiTest extends BaseTest {
@@ -56,7 +57,9 @@ class BookstoreApiTest extends BaseTest {
     @Test
     void shouldReturnNotFoundWhenBookDoesNotExist() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/books/999"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message")
+                        .value("Book with id 999 was not found"));
     }
 
     @Test
@@ -145,6 +148,8 @@ class BookstoreApiTest extends BaseTest {
     @Test
     void shouldReturnNotFoundWhenDeletingMissingBook() throws Exception {
         mvc.perform(MockMvcRequestBuilders.delete("/books/999"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message")
+                        .value("Book with id 999 was not found"));
     }
 }

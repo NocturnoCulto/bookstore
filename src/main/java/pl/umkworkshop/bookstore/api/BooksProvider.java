@@ -31,11 +31,14 @@ public class BooksProvider {
     }
 
     public BookstoreResponseV1 getBookById(Long id) {
+        Book book = bookstoreService.getBookById(id);
+        if (book == null) {
+            return new BookstoreResponseV1(List.of());
+        }
+
         return new BookstoreResponseV1(
                 List.of(
-                        mapBookToBookV1(
-                                bookstoreService.getBookById(id)
-                        )
+                        mapBookToBookV1(book)
                 )
         );
     }
@@ -63,11 +66,20 @@ public class BooksProvider {
     }
 
     public RemovedBookV1 deleteBookById(Long id) {
-        return null;
+        return new RemovedBookV1(bookstoreService.removeBookById(id));
     }
 
     public BookstoreResponseV1 changeDescription(Long id, NewDescriptionV1 newDescription) {
-        return null;
+        return new BookstoreResponseV1(
+                List.of(
+                        mapBookToBookV1(
+                                bookstoreService.updateDescription(
+                                        id,
+                                        newDescription.shortDescription(),
+                                        newDescription.longDescription())
+                        )
+                )
+        );
     }
 
     private BookV1 mapBookToBookV1(Book book) {

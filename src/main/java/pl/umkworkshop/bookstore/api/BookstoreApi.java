@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.umkworkshop.bookstore.api.model.request.BookToAddV1;
+import pl.umkworkshop.bookstore.api.model.request.NewDescriptionV1;
 import pl.umkworkshop.bookstore.api.model.response.BookstoreResponseV1;
 import pl.umkworkshop.bookstore.api.model.response.RemovedBookV1;
 
@@ -26,9 +27,14 @@ public class BookstoreApi {
 
     @GetMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookstoreResponseV1> getBookById(@PathVariable Long id) {
+        BookstoreResponseV1 response = booksProvider.getBookById(id);
+        if (response.getBooks().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity
                 .status(200)
-                .body(booksProvider.getBookById(id));
+                .body(response);
     }
 
     @GetMapping(value = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,11 +51,28 @@ public class BookstoreApi {
                 .body(booksProvider.addBook(book));
     }
 
-    public ResponseEntity<BookstoreResponseV1> changeDescription() {
-        return null;
+    @PatchMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BookstoreResponseV1> changeDescription(
+            @PathVariable Long id,
+            @RequestBody NewDescriptionV1 newDescription
+    ) {
+        try {
+            return ResponseEntity
+                    .status(200)
+                    .body(booksProvider.changeDescription(id, newDescription));
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    public ResponseEntity<RemovedBookV1> deleteBookById() {
-        return null;
+    @DeleteMapping(value = "/books/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RemovedBookV1> deleteBookById(@PathVariable Long id) {
+        try {
+            return ResponseEntity
+                    .status(200)
+                    .body(booksProvider.deleteBookById(id));
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

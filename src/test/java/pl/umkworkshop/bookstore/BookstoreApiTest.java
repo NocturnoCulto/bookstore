@@ -30,7 +30,7 @@ class BookstoreApiTest extends BaseTest {
 
     @Test
     void shouldGetAllBooks() throws Exception {
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/allBooks")
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/all-books")
                         .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))

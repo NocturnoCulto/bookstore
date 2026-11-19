@@ -12,25 +12,32 @@ import pl.umkworkshop.bookstore.api.model.response.BookV1;
 import pl.umkworkshop.bookstore.api.model.response.BookstoreResponseV1;
 import pl.umkworkshop.bookstore.api.model.response.RemovedBookV1;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class BookstoreApiTest extends BaseTest {
+
+    private static final MediaType APPLICATION_JSON_V1 =
+            MediaType.valueOf("application/vnd.bookstore.v1+json");
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void shouldGetAllBooks() throws Exception {
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/allBooks")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andReturn();
 
         BookstoreResponseV1 response = mapFromJson(
-                result.getResponse().getContentAsString(),
+                result.getResponse().getContentAsString(StandardCharsets.UTF_8),
                 BookstoreResponseV1.class);
 
         assertEquals(9, response.getBooks().size());
@@ -41,12 +48,13 @@ class BookstoreApiTest extends BaseTest {
     @Test
     void shouldGetBookById() throws Exception {
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/books/123")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andReturn();
 
         BookstoreResponseV1 response = mapFromJson(
-                result.getResponse().getContentAsString(),
+                result.getResponse().getContentAsString(StandardCharsets.UTF_8),
                 BookstoreResponseV1.class);
 
         assertEquals(1, response.getBooks().size());
@@ -56,8 +64,10 @@ class BookstoreApiTest extends BaseTest {
 
     @Test
     void shouldReturnNotFoundWhenBookDoesNotExist() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/books/999"))
+        mvc.perform(MockMvcRequestBuilders.get("/books/999")
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andExpect(jsonPath("$.message")
                         .value("Book with id 999 was not found"));
     }
@@ -66,8 +76,9 @@ class BookstoreApiTest extends BaseTest {
     void shouldGetBooksByAuthorLastName() throws Exception {
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/books")
                         .param("lastName", "Tolkien")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andReturn();
 
         BookstoreResponseV1 response = mapFromJson(
@@ -91,13 +102,15 @@ class BookstoreApiTest extends BaseTest {
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8.name())
                         .content(objectMapper.writeValueAsString(book))
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andReturn();
 
         BookstoreResponseV1 response = mapFromJson(
-                result.getResponse().getContentAsString(),
+                result.getResponse().getContentAsString(StandardCharsets.UTF_8),
                 BookstoreResponseV1.class);
         BookV1 addedBook = response.getBooks().get(0);
 
@@ -115,13 +128,15 @@ class BookstoreApiTest extends BaseTest {
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.patch("/books/125")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8.name())
                         .content(objectMapper.writeValueAsString(description))
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andReturn();
 
         BookstoreResponseV1 response = mapFromJson(
-                result.getResponse().getContentAsString(),
+                result.getResponse().getContentAsString(StandardCharsets.UTF_8),
                 BookstoreResponseV1.class);
         BookV1 updatedBook = response.getBooks().get(0);
 
@@ -132,23 +147,27 @@ class BookstoreApiTest extends BaseTest {
     @Test
     void shouldDeleteBook() throws Exception {
         MvcResult result = mvc.perform(MockMvcRequestBuilders.delete("/books/155")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andReturn();
 
         RemovedBookV1 response = mapFromJson(
-                result.getResponse().getContentAsString(),
+                result.getResponse().getContentAsString(StandardCharsets.UTF_8),
                 RemovedBookV1.class);
 
         assertEquals(155L, response.removedId());
-        mvc.perform(MockMvcRequestBuilders.get("/books/155"))
+        mvc.perform(MockMvcRequestBuilders.get("/books/155")
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void shouldReturnNotFoundWhenDeletingMissingBook() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.delete("/books/999"))
+        mvc.perform(MockMvcRequestBuilders.delete("/books/999")
+                        .accept(APPLICATION_JSON_V1))
                 .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1))
                 .andExpect(jsonPath("$.message")
                         .value("Book with id 999 was not found"));
     }
